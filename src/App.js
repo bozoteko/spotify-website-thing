@@ -315,7 +315,7 @@ function App() {
           <div className="controls-bar">
             <button onClick={() => controlPlayback('previous')} className="control-btn">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M11 12L20 18V6L11 12ZM4 6H6V18H4V6Z" fill="white"/>
+                <path d="M11 12L20 18V6L11 12ZM4 6H6V18H4V6Z" fill="white" stroke="black" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
               </svg>
             </button>
 
@@ -325,11 +325,11 @@ function App() {
             >
               {isPlaying ? (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M6 6h4v12H6zm8 0h4v12h-4z" fill="white"/>
+                  <path d="M6 6h4v12H6zm8 0h4v12h-4z" fill="white" stroke="black" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
                 </svg>
               ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" fill="white"/>
+                  <path d="M8 5v14l11-7z" fill="white" stroke="black" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
                 </svg>
               )}
             </button>
