@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
-// Utility to format milliseconds to mm:ss
 const formatTime = (ms) => {
   if (isNaN(ms) || ms < 0) return '0:00';
   const totalSeconds = Math.floor(ms / 1000);
@@ -10,7 +9,6 @@ const formatTime = (ms) => {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
-// Utility to calculate the remaining time
 const calculateRemainingTime = (durationMs, progressMs) => {
   if (!durationMs || !progressMs || durationMs <= 0) return '-0:00';
   const remainingMs = durationMs - progressMs;
@@ -227,7 +225,6 @@ function App() {
     }
   };
 
-  // Hover dot
   const handleHover = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const hoverPercent = ((e.clientX - rect.left) / rect.width) * 100;
