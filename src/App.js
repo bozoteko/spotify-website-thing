@@ -29,7 +29,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playerContainerRef = useRef(null);
-  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/';
+  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/'; 
 
   function generateRandomString(length) {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -53,7 +53,7 @@ function App() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-    const storedClientId = clientId;
+    const storedClientId = localStorage.getItem('spotifyClientId');
     const storedVerifier = localStorage.getItem('codeVerifier');
 
     if (code && storedClientId && storedVerifier) {
@@ -119,7 +119,7 @@ function App() {
 
   const exchangeCodeForToken = async (code, clientId, codeVerifier) => {
     try {
-      const res = await fetch('https://accounts.spotify.com/api/token', {
+    const res = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
@@ -136,7 +136,9 @@ function App() {
         localStorage.setItem('spotifyAccessToken', data.access_token);
         setAccessToken(data.access_token);
         setIsLoggedIn(true);
-        window.history.replaceState({}, document.title, '/');
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else {
+        console.error("Token exchange failed", data);
       }
     } catch (e) {
       console.error(e);
@@ -145,13 +147,11 @@ function App() {
 
   const fetchNowPlaying = async () => {
     try {
-      const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+    const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
 
       if (res.status === 204) {
-        setCurrentTrack(null);
-        setIsPlaying(false);
         return;
       }
 
@@ -202,7 +202,6 @@ function App() {
     setTimeout(fetchNowPlaying, 300);
   };
 
-  // Click to seek
   const seekTo = async (e) => {
     if (!accessToken || !durationMs) return;
 
