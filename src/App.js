@@ -255,7 +255,8 @@ function App() {
         <button className="login-btn" onClick={handleLogin}>Login to Spotify</button>
       
         <p style={{color: '#666', marginTop: '20px', fontSize: '0.8rem', maxWidth: '400px'}}>
-          Note: Ensure your Redirect URI in the Spotify Developer Dashboard is exactly:<br/>
+          Note: Ensure your Redirect URI in the Spotify Developer Dashboard is exactly:<br/><br>
+
           <code>{redirectUri}</code>
         </p>
       </div>
@@ -279,6 +280,24 @@ function App() {
         <>
           <div className="blur-bg"></div>
 
+          <div className="progress-section">
+            <div className="time-labels">
+              <span>{formatTime(progressMs)}</span>
+              <span>{calculateRemainingTime(durationMs, progressMs)}</span>
+            </div>
+
+            <div
+              className="progress-container"
+              onClick={seekTo}
+              onMouseMove={handleHover}
+            >
+              <div
+                className="progress-fill"
+                style={{ width: `${progressPercent}%` }}
+              ></div>
+            </div>
+          </div>
+
           <div className="main-content">
             <img
               src={currentTrack?.album?.images?.[0]?.url}
@@ -291,31 +310,14 @@ function App() {
                 <h2>{currentTrack.name}</h2>
                 <h3>{currentTrack.artists.map(a => a.name).join(', ')}</h3>
               </div>
-
-              <div className="progress-section">
-                <div className="time-labels">
-                  <span>{formatTime(progressMs)}</span>
-                  <span>{calculateRemainingTime(durationMs, progressMs)}</span>
-                </div>
-
-                <div
-                  className="progress-container"
-                  onClick={seekTo}
-                  onMouseMove={handleHover}
-                >
-                  <div
-                    className="progress-fill"
-                    style={{ width: `${progressPercent}%` }}
-                  ></div>
-                </div>
-              </div>
+              {/* Progress section removed from here */}
             </div>
           </div>
 
           <div className="controls-bar">
             <button onClick={() => controlPlayback('previous')} className="control-btn">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M11 12L20 18V6L11 12ZM4 6H6V18H4V6Z" fill="white" stroke="black" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <path d="M11 12L20 18V6L11 12ZM4 6H6V18H4V6Z" fill="white" stroke="black" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
               </svg>
             </button>
 
@@ -325,11 +327,11 @@ function App() {
             >
               {isPlaying ? (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M6 6h4v12H6zm8 0h4v12h-4z" fill="white" stroke="black" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                  <path d="M6 6h4v12H6zm8 0h4v12h-4z" fill="white" stroke="black" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
                 </svg>
               ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" fill="white" stroke="black" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                  <path d="M8 5v14l11-7z" fill="white" stroke="black" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
                 </svg>
               )}
             </button>
