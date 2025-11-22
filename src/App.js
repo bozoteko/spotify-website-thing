@@ -29,7 +29,9 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playerContainerRef = useRef(null);
-  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/'; 
+  const isExchangingToken = useRef(false);
+
+  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/';
 
   function generateRandomString(length) {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -56,7 +58,8 @@ function App() {
     const storedClientId = localStorage.getItem('spotifyClientId');
     const storedVerifier = localStorage.getItem('codeVerifier');
 
-    if (code && storedClientId && storedVerifier) {
+      if (code && storedClientId && storedVerifier && !isExchangingToken.current) {
+      isExchangingToken.current = true; // Mark as running so it doesn't run twice
       exchangeCodeForToken(code, storedClientId, storedVerifier);
     }
 
@@ -119,7 +122,7 @@ function App() {
 
   const exchangeCodeForToken = async (code, clientId, codeVerifier) => {
     try {
-    const res = await fetch('https://accounts.spotify.com/api/token', {
+      const res = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
@@ -132,22 +135,27 @@ function App() {
       });
 
       const data = await res.json();
+      
       if (data.access_token) {
         localStorage.setItem('spotifyAccessToken', data.access_token);
         setAccessToken(data.access_token);
         setIsLoggedIn(true);
+        // Clean the URL so we don't try to use the code again on refresh
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
-        console.error("Token exchange failed", data);
+        console.error("Login Failed:", data);
+        alert("Login failed. Check console for details.");
+        isExchangingToken.current = false; // Reset lock if failed
       }
     } catch (e) {
       console.error(e);
+      isExchangingToken.current = false;
     }
   };
 
   const fetchNowPlaying = async () => {
     try {
-    const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+      const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
 
@@ -178,13 +186,20 @@ function App() {
     if (!accessToken) return;
 
     let endpoint = '';
-    let method = 'PUT';
-    let body = null;
+    let method = 'PUT'; // Default method
 
+    // FIX: Real Spotify Control URLs
     if (action === 'play') endpoint = 'https://api.spotify.com/v1/me/player/play';
     if (action === 'pause') endpoint = 'https://api.spotify.com/v1/me/player/pause';
-    if (action === 'next') { endpoint = 'https://api.spotify.com/v1/me/player/next'; method = 'POST'; }
-    if (action === 'previous') { endpoint = 'https://api.spotify.com/v1/me/player/previous'; method = 'POST'; }
+    
+    if (action === 'next') { 
+        endpoint = 'https://api.spotify.com/v1/me/player/next'; 
+        method = 'POST'; 
+    }
+    if (action === 'previous') { 
+        endpoint = 'https://api.spotify.com/v1/me/player/previous'; 
+        method = 'POST'; 
+    }
 
     try {
       await fetch(endpoint, {
@@ -193,7 +208,6 @@ function App() {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: body,
       });
     } catch (err) {
       console.error(err);
@@ -241,6 +255,12 @@ function App() {
           placeholder="Enter Spotify Client ID"
         />
         <button className="login-btn" onClick={handleLogin}>Login to Spotify</button>
+        
+        {/* Added explicit Instructions */}
+        <p style={{color: '#666', marginTop: '20px', fontSize: '0.8rem', maxWidth: '400px'}}>
+          Note: Ensure your Redirect URI in the Spotify Developer Dashboard is exactly:<br/>
+          <code>{redirectUri}</code>
+        </p>
       </div>
     );
   }
@@ -327,6 +347,7 @@ function App() {
       ) : (
         <div className="no-track">
           <h2>Nothing is Playing</h2>
+          <p>Play a song on Spotify to start.</p>
         </div>
       )}
     </div>
