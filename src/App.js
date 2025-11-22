@@ -29,7 +29,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playerContainerRef = useRef(null);
-  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/callback';
+  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/';
 
   function generateRandomString(length) {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
