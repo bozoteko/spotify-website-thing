@@ -59,7 +59,7 @@ function App() {
     const storedVerifier = localStorage.getItem('codeVerifier');
 
       if (code && storedClientId && storedVerifier && !isExchangingToken.current) {
-      isExchangingToken.current = true; // Mark as running so it doesn't run twice
+      isExchangingToken.current = true; 
       exchangeCodeForToken(code, storedClientId, storedVerifier);
     }
 
@@ -140,12 +140,11 @@ function App() {
         localStorage.setItem('spotifyAccessToken', data.access_token);
         setAccessToken(data.access_token);
         setIsLoggedIn(true);
-        // Clean the URL so we don't try to use the code again on refresh
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
         console.error("Login Failed:", data);
         alert("Login failed. Check console for details.");
-        isExchangingToken.current = false; // Reset lock if failed
+        isExchangingToken.current = false; 
       }
     } catch (e) {
       console.error(e);
@@ -186,9 +185,8 @@ function App() {
     if (!accessToken) return;
 
     let endpoint = '';
-    let method = 'PUT'; // Default method
+    let method = 'PUT'; 
 
-    // FIX: Real Spotify Control URLs
     if (action === 'play') endpoint = 'https://api.spotify.com/v1/me/player/play';
     if (action === 'pause') endpoint = 'https://api.spotify.com/v1/me/player/pause';
     
@@ -255,8 +253,7 @@ function App() {
           placeholder="Enter Spotify Client ID"
         />
         <button className="login-btn" onClick={handleLogin}>Login to Spotify</button>
-        
-        {/* Added explicit Instructions */}
+      
         <p style={{color: '#666', marginTop: '20px', fontSize: '0.8rem', maxWidth: '400px'}}>
           Note: Ensure your Redirect URI in the Spotify Developer Dashboard is exactly:<br/>
           <code>{redirectUri}</code>
