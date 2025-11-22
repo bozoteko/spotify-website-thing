@@ -31,7 +31,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playerContainerRef = useRef(null);
-  const redirectUri = 'https://supersquamosal-anna-scientific.ngrok-free.dev/';
+  const redirectUri = 'https://bozoteko.github.io/spotify-website-thing/callback';
 
   function generateRandomString(length) {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
