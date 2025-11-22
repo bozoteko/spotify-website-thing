@@ -1,0 +1,235 @@
+:root {
+    --spotify-green: #1ed760;
+    --spotify-green-hover: #23e86c;
+    --bg-black: #000;
+    --text-primary: #fff;
+    --text-secondary: #b3b3b3;
+}
+
+body {
+    margin: 0;
+    background: var(--bg-black);
+    color: var(--text-primary);
+    font-family: Inter, sans-serif;
+    overflow: hidden;
+}
+
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container input {
+    margin-top: 20px;
+    padding: 12px 20px;
+    width: 300px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+.login-btn {
+    margin-top: 20px;
+    background: var(--spotify-green);
+    color: black;
+    padding: 14px 30px;
+    border: none;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    background: var(--spotify-green-hover);
+}
+
+.player-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.album-art {
+    width: 300px;
+    height: 300px;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 
+        0 0 0 2px rgba(0, 0, 0, 0.5),
+        0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+
+.track-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 500px;
+}
+
+.track-info h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 !important;
+    text-shadow: 
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.track-info h3 {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    margin: 0 !important;
+    text-shadow: 
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        0 0 6px rgba(0, 0, 0, 0.8);
+}
+
+.progress-section {
+    margin-top: 25px;
+    width: 100%;
+}
+
+.time-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    text-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+.progress-container {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 4px;
+  width: 0%;
+}
+
+.progress-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 12px;       
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none; 
+  transition: opacity 0.2s;
+}
+
+.progress-container:hover::after {
+  opacity: 1;
+}
+
+.progress-container:hover::after {
+  left: var(--hover-x, 0%);
+}
+
+
+.controls-bar {
+  position: relative; 
+  z-index: 10;       
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.play-pause-btn {
+  font-size: 1.5rem;
+  padding: 10px 20px;
+}
+
+.control-btn {
+  width: 50px;       
+  height: 50px;
+  background: rgba(0,0,0,0.0); 
+  border: none;
+  border-radius: 8px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.control-btn:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.play-pause-btn {
+    background: clear;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.player-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.player-container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: inherit; 
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px);
+  transform: scale(1.1);
+  z-index: 0;
+}
+
+.main-content {
+  position: relative;
+  z-index: 1;
+}
